@@ -1,22 +1,55 @@
 import React from 'react';
-import { Country } from '../Country';
 import styled from 'styled-components';
+import { Country } from './Country';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 
 const CountryListStyle  = styled.div`
+    display:grid;
+    grid-row-gap:2.3em;
+    border:1px solid red;
+    /* grid-template-columns:1fr 1fr 1fr; */
+    background-color:var(--bg);
+    padding:4em 2em;
 
 `
 
 export const CountryList = () => {
+    const [countries, setCountries] = useState([]);
+    useEffect(() => {
+        fetch('https://restcountries.eu/rest/v2/all')
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                console.log(data);
+                setCountries(data);
+            })
+            .catch(() => {
+                console.log('hubo un error');
+            })
+    }, [])
+    
     return (
-        <div>
-            <Country
-          flag="https://webfiles1.blob.core.windows.net/cache/b/4/d/e/f/d/b4defdb43fb9a42e62cc796f6a0bd3d18194b34c.png"
-          name="Bolivia"
-          population={12312312}
-          region="América"
-          capital="Sucre"
-      />
-        </div>
+        <CountryListStyle>
+            {
+                countries.map(({name, alpha3Code, capital, flag,population, region }) =>{
+                    return(
+                        <Country
+                            key={alpha3Code}
+                            flag={flag}
+                            name={name}
+                            population={population}
+                            region={region}
+                            capital={capital}
+                        />
+                    )
+                    
+                })
+               
+            }
+             
+        </CountryListStyle>
     )
 }

@@ -8,6 +8,7 @@ const CountryStyle = styled.div`
     border-radius:5px;
     margin:1em;
     overflow:hidden;
+    background:var(--white);
     box-shadow: 0 0 7px 3px rgba(0,0,0,0.03);
     img{
         width:100%;
@@ -31,7 +32,7 @@ const CountryStyle = styled.div`
 export const Country = ({flag, name, population, region, capital}) => {
     return (
         <CountryStyle>
-            <img src={flag} alt="flag"/>
+            <img loading='lazy' src={flag} alt="flag"/>
                 <div className="details">
                     <h2>{name}</h2>
                     <p><strong>Población:</strong>{population}</p>
